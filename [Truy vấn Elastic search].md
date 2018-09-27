@@ -1,3 +1,6 @@
+<!-- TITLE: Facebookphonematching -->
+<!-- SUBTITLE: A quick summary of Facebookphonematching -->
+
 # [Truy vấn Elastic search] 
 Đầu tiên, trước khi đi vào cách tìm kiếm dữ liệu trong ES thì mình sẽ giới thiệu qua về các thao tác create, read, update và delete dữ liệu trong ES. Có 2 cách để thao tác với ES:
 * Qua native API: hỗ trợ phía client với nhiều ngôn ngữ lập trình như java, php, ruby.., cách này có ưu điểm về performance khi sử dụng trực tiếp socket để kết nối client và server qua port 9300 (default)
@@ -24,18 +27,23 @@ Lưu ý: khi sử dụng PUT: nếu document tương ứng với các tham số 
 
 ### 2.  Delete:
 Có 2 cách xóa document trong Elastich search:
+
 * Sử dụng delete API:
-**DELETE /{index_name}/{type_name}/id**
+  **DELETE /{index_name}/{type_name}/id**
+  
 * Sử dụng query API:
-**POST /{index_name}/{type_name}/_delete_by_query
+```
+  POST /{index_name}/{type_name}/_delete_by_query
 {
   “query”:{
     “match”:{
       “message”:”message to delete”
 }
 }
-}**
-*Ví dụ nếu muốn xóa các document có name = “abc” ở trong type customer của index company:
+}
+```
+*Ví dụ nếu muốn xóa các document có name = “abc” ở trong type customer của index company:*
+```
 POST /company/customer/_delete_by_query
 {
   "query": { 
@@ -43,34 +51,49 @@ POST /company/customer/_delete_by_query
       "name": "abc"
     }
   }
-}*
+}
+```
+
 
 ### 3.  Update:
 * Cách một: reindex document đó
-**PUT /{index_name}/{type_name}/{id}
+
+```
+PUT /{index_name}/{type_name}/{id}
 {
   "field": "data"
-}**
-  Như đã nói ở trên thì document cũ sẽ được thay thế bởi một document mới
+}
+```
+Như đã nói ở trên thì document cũ sẽ được thay thế bởi một document mới
+
 * Sử dụng POST:
-**POST /{index_name}/{type_name}/{id}
+
+```
+POST /{index_name}/{type_name}/{id}
 {
   "field_name": "data"
-}**
+}
+```
 Với cách này thì ES sẽ update trường thông tin có tên “field_name” và update data của trường đó.
 
 ### 4.  Search document
 Có 2 cách tìm kiếm dữ liệu trong ES là sử dụng Search Lite và search với query DSL.
+
 * **Với Search Lite:**
 Đây là cách tiếp cận đơn giản nhất để có thể build các câu truy vấn cơ bản bằng cách truyền các tham số trong query string.
+
 Để lấy ra một document ta sẽ truyền vào id của document đó cùng với index name, type name:
 **GET /{index_name}/{type_name}/{id}**
+
 Để lấy ra tất cả các document:
   **GET /_search hoặc GET /_all/_search**
+  
 Tìm tất cả document trong một index: 
   **GET /{index_name}/_ search**
+  
 Để lấy ra các document trong cùng một type:
   **GET /{index_name}/{type_name}/_ search**
+  
 Search dữ liệu theo các tham số truyền vào ta sẽ dùng biến q={tham số}
 *Ví dụ: để tìm một employee trong index google có last_name = “Sam” và age = 21
   **GET /google/employee/_search?q=last_name:Smith AND age:21***
@@ -111,7 +134,7 @@ Ví dụ:
   term: query trên câu truy vấn truyền vào nhưng analyzer sẽ không được apply, tức là các term phải được match một cách chính xác hoàn toàn, ví dụ:  “Cat” sẽ khác “cat”.
   
   **multi_match:** aply match query trên nhiều field khác nhau
-  ```
+  
     Ví dụ: 
       {
         "query": {
@@ -119,17 +142,16 @@ Ví dụ:
             "query":    "this is a test", 
            "fields": [ "subject", "message" ] 
           }}}
-        ``` 
+        
 
   **bool:** cho phép kết hợp các câu truy vấn khác để tạo ra một logic hợp lý. Có các loại truy vấn bool:
     *  **Must:** phải phù hợp với tất cả các điều kiện và đóng góp vào score search của document 
     * **Filter**: giống với must nhưng bỏ qua đóng góp điểm số
     * **Should:** chỉ cần document match một trong các điều kiện
     * **Must_not:** ngược lại với must, tức là phải không match với tất cả các term.
-    
     **must** và **filter** sẽ tương tự với **and**, **should** tương đương với **or** còn **must_not** tương đương với **nor** trong toán học logic, chỉ cần hiểu như vậy là ta có thể xây dựng các truy vấn lồng nhau sử dụng truy vấn **bool.** 
 ```
-*Ví dụ:
+Ví dụ:
 {
    "query" : {
       "constant_score" : {
@@ -148,12 +170,12 @@ Ví dụ:
          }
       }
    }
-}*
+}
 ```
 Câu truy vấn trên sẽ tương đương với câu truy vấn sau trong mysql:
 ```
-*SELECT document
+SELECT document
 FROM   products
 WHERE  productID      = "KDKE-B-9947-#kL5"
   OR (     productID = "JODL-X-1937-#pV7"
-       AND price     = 30 )*
+       AND price     = 30 )
