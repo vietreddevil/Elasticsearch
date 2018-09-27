@@ -134,11 +134,13 @@ Ví dụ:
   Kết quả trả về là Kiên Nguyễn và Phúc Hoàng
 ```
 
-  **match_phrase**: document chỉ match nếu các tẻm match có cùng thứ tự và liên tiếp nhau.
+  **match_phrase:** document chỉ match nếu các tẻm match có cùng thứ tự và liên tiếp nhau.
   Tức là với ví dụ trên thì kết quả là Kiên Nguyễn và Phúc Hoàng đều không thỏa mãn khi thay thế match bằng match_phrase mà chỉ những người có tên là một string trong đó chứa chuỗi “Kiên Phúc” mới là kết quả hợp lý.
-  match_phrase_prefix: tương tự như match_phrase nhưng có thêm điều kiện khớp tiền tố của từ trong văn bản. 
+  
+  **match_phrase_prefix:** tương tự như match_phrase nhưng có thêm điều kiện khớp tiền tố của từ trong văn bản. 
   Ví dụ khi tìm kiếm với “Phong hen” thì cả “Phong hen” và “Phong henry” đều match
   term: query trên câu truy vấn truyền vào nhưng analyzer sẽ không được apply, tức là các term phải được match một cách chính xác hoàn toàn, ví dụ:  “Cat” sẽ khác “cat”.
+  
   
   **multi_match:** aply match query trên nhiều field khác nhau
   
