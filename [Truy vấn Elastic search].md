@@ -80,6 +80,7 @@ Search dữ liệu theo các tham số truyền vào ta sẽ dùng biến q={tha
 * **Với query DSL:**
 Với những câu query phức tạp hơn ví dụ: aggregation thì việc sử dụng URI search không thể đáp ứng được, hơn nữa khi build các câu lệnh dài và các truy vấn lồng nhau thì rất dễ mắc lỗi, khi đó chúng ta sẽ sử dụng query DSL (domain-specific language) là một ngôn ngữ đặc tử sử dụng cú pháp của JSON trong request body để diễn đạt các câu query.
 Cú pháp các câu query:
+```
 **{
     "query" : {
         "query_name" : {
@@ -88,10 +89,13 @@ Cú pháp các câu query:
         }
     }
 }**
+```
 Dưới đây mình sẽ giới thiệu qua các câu truy vấn phổ biến trong Elastic search mà người dùng hay sử dụng nhất:
+
 **match:** Tìm kiếm các document theo giá trị của các trường, các document sẽ match nếu một term trong query đó match, càng nhiều term được match thì score của document càng lớn. Query search sẽ được apply analyzer config cho field search đó hoặc để mặc định (nếu không set). Tức là, khi các term được truyền vào thì nó sẽ được là mịn trước khi tìm kiếm, ví dụ: “CAT” hay “cat” thì đều tìm là “cat”.
 (term: khi các value được đưa vào để truy vấn thì nó sẽ được cắt ra thành các term dựa trên một số quy định như là chia cắt các khoảng trắng. Ví dụ: “one two” sẽ là “one” và “two”. Việc chia các giá trị tìm kiếm thành các term là để có thể tìm kiếm với Inverted index)
 Ví dụ: 
+```
   GET /infore/employee/_search
   {
     “query”:{
@@ -99,15 +103,15 @@ Ví dụ:
             “name”:”kiên phúc”
         }}}
   Kết quả trả về là Kiên Nguyễn và Phúc Hoàng
-
+```
     **match_phrase**: document chỉ match nếu các tẻm match có cùng thứ tự và liên tiếp nhau.
   Tức là với ví dụ trên thì kết quả là Kiên Nguyễn và Phúc Hoàng đều không thỏa mãn khi thay thế match bằng match_phrase mà chỉ những người có tên là một string trong đó chứa chuỗi “Kiên Phúc” mới là kết quả hợp lý.
   match_phrase_prefix: tương tự như match_phrase nhưng có thêm điều kiện khớp tiền tố của từ trong văn bản. 
-  
-    Ví dụ khi tìm kiếm với “Phong hen” thì cả “Phong hen” và “Phong henry” đều match
+  Ví dụ khi tìm kiếm với “Phong hen” thì cả “Phong hen” và “Phong henry” đều match
   term: query trên câu truy vấn truyền vào nhưng analyzer sẽ không được apply, tức là các term phải được match một cách chính xác hoàn toàn, ví dụ:  “Cat” sẽ khác “cat”.
   
   **multi_match:** aply match query trên nhiều field khác nhau
+  ```
     Ví dụ: 
       {
         "query": {
@@ -115,7 +119,8 @@ Ví dụ:
             "query":    "this is a test", 
            "fields": [ "subject", "message" ] 
           }}}
-          
+        ``` 
+
   **bool:** cho phép kết hợp các câu truy vấn khác để tạo ra một logic hợp lý. Có các loại truy vấn bool:
     *  **Must:** phải phù hợp với tất cả các điều kiện và đóng góp vào score search của document 
     * **Filter**: giống với must nhưng bỏ qua đóng góp điểm số
@@ -123,6 +128,7 @@ Ví dụ:
     * **Must_not:** ngược lại với must, tức là phải không match với tất cả các term.
     
     **must** và **filter** sẽ tương tự với **and**, **should** tương đương với **or** còn **must_not** tương đương với **nor** trong toán học logic, chỉ cần hiểu như vậy là ta có thể xây dựng các truy vấn lồng nhau sử dụng truy vấn **bool.** 
+```
 *Ví dụ:
 {
    "query" : {
@@ -143,7 +149,9 @@ Ví dụ:
       }
    }
 }*
+```
 Câu truy vấn trên sẽ tương đương với câu truy vấn sau trong mysql:
+```
 *SELECT document
 FROM   products
 WHERE  productID      = "KDKE-B-9947-#kL5"
