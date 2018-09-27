@@ -83,19 +83,24 @@ Có 2 cách tìm kiếm dữ liệu trong ES là sử dụng Search Lite và sea
 Đây là cách tiếp cận đơn giản nhất để có thể build các câu truy vấn cơ bản bằng cách truyền các tham số trong query string.
 
 Để lấy ra một document ta sẽ truyền vào id của document đó cùng với index name, type name:
+
 **GET /{index_name}/{type_name}/{id}**
 
 Để lấy ra tất cả các document:
+
   **GET /_search hoặc GET /_all/_search**
   
 Tìm tất cả document trong một index: 
+
   **GET /{index_name}/_ search**
   
 Để lấy ra các document trong cùng một type:
+
   **GET /{index_name}/{type_name}/_ search**
   
 Search dữ liệu theo các tham số truyền vào ta sẽ dùng biến q={tham số}
 *Ví dụ: để tìm một employee trong index google có last_name = “Sam” và age = 21
+
   **GET /google/employee/_search?q=last_name:Smith AND age:21***
 
 >**q**  chỉ là một tham số phổ biến nhất cho phép trong URI của truy vấn dùng để truyền vào một query string, ngoài ra còn có một số tham số  khác để xác định analyzer sẽ được sử dụng khi truy vấn hay số kết quả trả về cho mỗi truy vấn. Xem tại [link sau](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-uri-request.html).
