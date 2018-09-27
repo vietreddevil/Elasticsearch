@@ -2,6 +2,20 @@
 <!-- SUBTITLE: A quick summary of Facebookphonematching -->
 
 # [Truy vấn Elastic search] 
+
+**Tool thực hành elastic search**
+
+[Link download](https://github.com/lmenezes/cerebro/releases)
+
+Sau khi down file zip về, ta sẽ giải nén ra và vao thư mục bin -> chạy file cerebro.bat su đó truy cập đến địa chỉ http://localhost:9000
+Tại khung input điền node address, ta sẽ nhập vào địa chỉ: http://192.168.1.207:9200 và enter
+Sau đó chọn tab rest trên thanh menu -> nhập fb_author_data/_search vào đường dẫn và bắt đầu viết truy vấn tìm kiếm 
+>lưu ý: chỉ nên thực hành các truy vấn tìm kiếm để tránh việc làm mất mát hoặc thay đổi dữ liệu của server
+
+
+
+
+
 Đầu tiên, trước khi đi vào cách tìm kiếm dữ liệu trong ES thì mình sẽ giới thiệu qua về các thao tác create, read, update và delete dữ liệu trong ES. Có 2 cách để thao tác với ES:
 * Qua native API: hỗ trợ phía client với nhiều ngôn ngữ lập trình như java, php, ruby.., cách này có ưu điểm về performance khi sử dụng trực tiếp socket để kết nối client và server qua port 9300 (default)
 * Qua Restful API: base trên giao thức HTTP và được build trên native API để connect tới ES server thông qua cổng 9200, ưu diểm của cách này alf không phụ thuộc vào nền tảng, ngôn ngữ lập trình, tuy nhiên hiệu năng sẽ không bằng native API
