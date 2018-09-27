@@ -120,7 +120,7 @@ Cú pháp các câu query:
 ```
 Dưới đây mình sẽ giới thiệu qua các câu truy vấn phổ biến trong Elastic search mà người dùng hay sử dụng nhất:
 
-**match:** Tìm kiếm các document theo giá trị của các trường, các document sẽ match nếu một term trong query đó match, càng nhiều term được match thì score của document càng lớn. Query search sẽ được apply analyzer config cho field search đó hoặc để mặc định (nếu không set). Tức là, khi các term được truyền vào thì nó sẽ được là mịn trước khi tìm kiếm, ví dụ: “CAT” hay “cat” thì đều tìm là “cat”.
+* **match:** Tìm kiếm các document theo giá trị của các trường, các document sẽ match nếu một term trong query đó match, càng nhiều term được match thì score của document càng lớn. Query search sẽ được apply analyzer config cho field search đó hoặc để mặc định (nếu không set). Tức là, khi các term được truyền vào thì nó sẽ được là mịn trước khi tìm kiếm, ví dụ: “CAT” hay “cat” thì đều tìm là “cat”.
 (term: khi các value được đưa vào để truy vấn thì nó sẽ được cắt ra thành các term dựa trên một số quy định như là chia cắt các khoảng trắng. Ví dụ: “one two” sẽ là “one” và “two”. Việc chia các giá trị tìm kiếm thành các term là để có thể tìm kiếm với Inverted index)
 Ví dụ: 
 
@@ -134,17 +134,17 @@ Ví dụ:
   Kết quả trả về là Kiên Nguyễn và Phúc Hoàng
 ```
 
-  **match_phrase:** document chỉ match nếu các tẻm match có cùng thứ tự và liên tiếp nhau.
+ * **match_phrase:** document chỉ match nếu các tẻm match có cùng thứ tự và liên tiếp nhau.
   Tức là với ví dụ trên thì kết quả là Kiên Nguyễn và Phúc Hoàng đều không thỏa mãn khi thay thế match bằng match_phrase mà chỉ những người có tên là một string trong đó chứa chuỗi “Kiên Phúc” mới là kết quả hợp lý.
   
-  **match_phrase_prefix:** tương tự như match_phrase nhưng có thêm điều kiện khớp tiền tố của từ trong văn bản. 
+ * **match_phrase_prefix:** tương tự như match_phrase nhưng có thêm điều kiện khớp tiền tố của từ trong văn bản. 
   Ví dụ khi tìm kiếm với “Phong hen” thì cả “Phong hen” và “Phong henry” đều match
   
   
-  **term:** query trên câu truy vấn truyền vào nhưng analyzer sẽ không được apply, tức là các term phải được match một cách chính xác hoàn toàn, ví dụ:  “Cat” sẽ khác “cat”.
+ * **term:** query trên câu truy vấn truyền vào nhưng analyzer sẽ không được apply, tức là các term phải được match một cách chính xác hoàn toàn, ví dụ:  “Cat” sẽ khác “cat”.
   
   
-  **multi_match:** aply match query trên nhiều field khác nhau
+  * **multi_match:** aply match query trên nhiều field khác nhau
   
     Ví dụ: 
       {
@@ -155,7 +155,7 @@ Ví dụ:
           }}}
         
 
-  **bool:** cho phép kết hợp các câu truy vấn khác để tạo ra một logic hợp lý. Có các loại truy vấn bool:
+  * **bool:** cho phép kết hợp các câu truy vấn khác để tạo ra một logic hợp lý. Có các loại truy vấn bool:
     *  **Must:** phải phù hợp với tất cả các điều kiện và đóng góp vào score search của document 
     * **Filter**: giống với must nhưng bỏ qua đóng góp điểm số
     * **Should:** chỉ cần document match một trong các điều kiện
